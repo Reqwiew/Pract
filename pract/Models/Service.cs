@@ -5,9 +5,10 @@ namespace pract.Models
     public class Service
     {
         [Key]
-        public Guid Id { get; set; }
-        public string? NameService { get; set; }
-        public decimal? Price { get; set; }
+        public int ServiceID { get; set; } 
+        public string ServiceName { get; set; }
+        public decimal Price { get; set; }
 
+        public ICollection<RepairService>? RepairServices { get; set; }
     }
 }

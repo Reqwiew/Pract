@@ -17,7 +17,7 @@ namespace pract.Data
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Receptionit> GetReceptionits(PractDbContext context) => context.receptionits;
+        public IQueryable<Receptionist> GetReceptionits(PractDbContext context) => context.receptionits;
         [UseProjection]
         [UseFiltering]
         [UseSorting]
@@ -25,14 +25,23 @@ namespace pract.Data
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<CompliteWork> GetComplitework(PractDbContext context) => context.compliteWorks;
+        public IQueryable<Equipment> GetEquipment(PractDbContext context) => context.equipment;
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<UseChapters> GetUseChap( PractDbContext context) => context.UseChapters;
+        public IQueryable<Part> GetPart( PractDbContext context) => context.parts;
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<AcceptTec> GetAcceptTecs(PractDbContext context) => context.acceptTecs;
+        public IQueryable<Repair> GetRepair(PractDbContext context) => context.repairs;
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<RepairService> GetRepairService([Service] PractDbContext context) => context.repairServices;
+
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<UsedPart> GetUsedPart(PractDbContext context) => context.usedParts;
     }
 }
