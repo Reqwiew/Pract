@@ -1,23 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pract.Models
 {
     public class Repair
     {
         [Key]
-        public int RepairID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public decimal TotalCost { get; set; }
 
-        
-        public int EquipmentID { get; set; }
+
+        [ForeignKey("EquipmentId")]
+        public long EquipmentId { get; set; }
         public Equipment? Equipment { get; set; }
 
-        public int MasterID { get; set; }
+        [ForeignKey("MasterId")]
+        public long MasterId { get; set; }
         public Master? Master { get; set; }
 
-        public int ReceptionistID { get; set; }
+        [ForeignKey("ReceptionistId")]
+        public long ReceptionistId { get; set; }
         public Receptionist? Receptionist { get; set; }
 
        

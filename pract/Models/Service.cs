@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pract.Models
 {
     public class Service
     {
         [Key]
-        public int ServiceID { get; set; } 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; } 
         public string ServiceName { get; set; }
         public decimal Price { get; set; }
 

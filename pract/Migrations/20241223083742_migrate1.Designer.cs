@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pract;
 
@@ -11,9 +12,11 @@ using pract;
 namespace pract.Migrations
 {
     [DbContext(typeof(PractDbContext))]
-    partial class PractDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241223083742_migrate1")]
+    partial class migrate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Client", b =>
                 {
-                    b.Property<long>("ClientID")
+                    b.Property<int>("ClientID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClientID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientID"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -53,18 +56,18 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Equipment", b =>
                 {
-                    b.Property<long>("EquipmentID")
+                    b.Property<int>("EquipmentID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("EquipmentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EquipmentID"));
 
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ClientID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ClientID")
+                        .HasColumnType("int");
 
                     b.Property<string>("EquipmentType")
                         .IsRequired()
@@ -87,11 +90,11 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Master", b =>
                 {
-                    b.Property<long>("MasterID")
+                    b.Property<int>("MasterID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MasterID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MasterID"));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -112,11 +115,11 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Part", b =>
                 {
-                    b.Property<long>("PartID")
+                    b.Property<int>("PartID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PartID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartID"));
 
                     b.Property<string>("PartName")
                         .IsRequired()
@@ -132,11 +135,11 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Receptionist", b =>
                 {
-                    b.Property<long>("ReceptionistID")
+                    b.Property<int>("ReceptionistID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ReceptionistID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReceptionistID"));
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -153,23 +156,23 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Repair", b =>
                 {
-                    b.Property<long>("RepairID")
+                    b.Property<int>("RepairID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RepairID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RepairID"));
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("EquipmentID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("EquipmentID")
+                        .HasColumnType("int");
 
-                    b.Property<long>("MasterID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("MasterID")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ReceptionistID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ReceptionistID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -190,17 +193,17 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.RepairService", b =>
                 {
-                    b.Property<long>("RepairServiceID")
+                    b.Property<int>("RepairServiceID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("RepairServiceID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RepairServiceID"));
 
-                    b.Property<long>("RepairID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("RepairID")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ServiceID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ServiceID")
+                        .HasColumnType("int");
 
                     b.HasKey("RepairServiceID");
 
@@ -213,11 +216,11 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.Service", b =>
                 {
-                    b.Property<long>("ServiceID")
+                    b.Property<int>("ServiceID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ServiceID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceID"));
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -233,20 +236,20 @@ namespace pract.Migrations
 
             modelBuilder.Entity("pract.Models.UsedPart", b =>
                 {
-                    b.Property<long>("UsedPartID")
+                    b.Property<int>("UsedPartID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UsedPartID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsedPartID"));
 
-                    b.Property<long>("PartID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PartID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long>("RepairID")
-                        .HasColumnType("bigint");
+                    b.Property<int>("RepairID")
+                        .HasColumnType("int");
 
                     b.HasKey("UsedPartID");
 

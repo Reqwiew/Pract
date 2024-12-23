@@ -1,4 +1,5 @@
 ﻿using Faker;
+using Microsoft.Graph.Models;
 using pract.Models;
 
 namespace pract.Data
@@ -31,7 +32,7 @@ namespace pract.Data
                     var client = new Client
                     {
                         FullName = Name.FullName(),
-                        PhoneNumber = Phone.Number(),
+                        PhoneNumber = Faker.Phone.Number(),
                         Email = Internet.Email(),
                         Address = Address.StreetAddress()
                     };
@@ -48,7 +49,7 @@ namespace pract.Data
                     var receptionist = new Receptionist
                     {
                         FullName = Name.FullName(),
-                        PhoneNumber = Phone.Number()
+                        PhoneNumber = Faker.Phone.Number()
                     };
                     db.receptionits.Add(receptionist);
                 }
@@ -63,7 +64,7 @@ namespace pract.Data
                     {
                         FullName = Name.FullName(),
                         Specialization = Lorem.Sentence(2),
-                        PhoneNumber = Phone.Number()
+                        PhoneNumber = Faker.Phone.Number()
                     };
                     db.masters.Add(master);
                 }
@@ -78,16 +79,17 @@ namespace pract.Data
                 {
                     throw new InvalidOperationException("The 'clients' table is empty. Seed it first.");
                 }
-
+                var client = db.clients.ToList();
                 for (int i = 0; i < 10; i++)
                 {
                     var equipment = new Equipment
+                    
                     {
                         EquipmentType = Lorem.Sentence(),
                         Brand = Company.Name(),
                         Model = Lorem.Sentence(),
                         SerialNumber = random.Next(100000, 999999).ToString(),
-                        ClientID = db.clients.OrderBy(c => Guid.NewGuid()).First().ClientID
+                        ClientId = client[RandomNumber.Next(0, client.Count - 1)].Id,
                     };
                     db.equipment.Add(equipment);
                 }
@@ -118,6 +120,10 @@ namespace pract.Data
                     );
                 }
 
+                var equ = db.equipment.ToList();
+                var mas = db.masters.ToList();
+                var recept = db.receptionits.ToList();
+
                 for (int i = 0; i < 10; i++)
                 {
                     var repair = new Repair
@@ -125,9 +131,9 @@ namespace pract.Data
                         StartDate = DateTime.Now.AddDays(-random.Next(1, 30)),
                         EndDate = DateTime.Now.AddDays(random.Next(1, 30)),
                         TotalCost = (decimal)(random.NextDouble() * 200),
-                        EquipmentID = db.equipment.OrderBy(e => Guid.NewGuid()).First().EquipmentID,
-                        MasterID = db.masters.OrderBy(m => Guid.NewGuid()).First().MasterID,
-                        ReceptionistID = db.receptionits.OrderBy(r => Guid.NewGuid()).First().ReceptionistID
+                        EquipmentId = equ[RandomNumber.Next(0, equ.Count - 1)].Id,
+                        MasterId = mas[RandomNumber.Next(0, mas.Count - 1)].Id,
+                        ReceptionistId = recept[RandomNumber.Next(0, recept.Count - 1)].Id,
                     };
                     db.repairs.Add(repair);
                 }
@@ -143,13 +149,17 @@ namespace pract.Data
                         "One of the required tables ('repairs', 'services') is empty. Seed them first."
                     );
                 }
+                var repair = db.repairs.ToList();
+                var serv = db.services.ToList();
+
+
 
                 for (int i = 0; i < 10; i++)
                 {
                     var repairService = new RepairService
                     {
-                        RepairID = db.repairs.OrderBy(r => Guid.NewGuid()).First().RepairID,
-                        ServiceID = db.services.OrderBy(s => Guid.NewGuid()).First().ServiceID
+                        RepairId = repair[RandomNumber.Next(0, repair.Count - 1)].Id,
+                        ServiceId = serv[RandomNumber.Next(0, serv.Count - 1)].Id,
                     };
                     db.repairServices.Add(repairService);
                 }
@@ -164,13 +174,15 @@ namespace pract.Data
                         "One of the required tables ('repairs', 'parts') is empty. Seed them first."
                     );
                 }
+                var repair = db.repairs.ToList();
+                var part = db.parts.ToList();
 
                 for (int i = 0; i < 10; i++)
                 {
                     var usedPart = new UsedPart
                     {
-                        RepairID = db.repairs.OrderBy(r => Guid.NewGuid()).First().RepairID,
-                        PartID = db.parts.OrderBy(p => Guid.NewGuid()).First().PartID,
+                        RepairId = repair[RandomNumber.Next(0, repair.Count - 1)].Id,
+                        PartId = part[RandomNumber.Next(0, part.Count - 1)].Id,
                         Quantity = random.Next(1, 5)
                     };
                     db.usedParts.Add(usedPart);
