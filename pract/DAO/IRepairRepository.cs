@@ -4,6 +4,8 @@ namespace pract.DAO
 {
     public interface IRepairRepository
     {
-        IQueryable<Repair> GetAllRepair();
+        IQueryable<Repair> GetRepairOnly();
+        Task<Repair> AddRepair(Repair repair);
+      
     }
 }

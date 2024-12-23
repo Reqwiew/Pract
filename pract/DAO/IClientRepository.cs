@@ -5,9 +5,8 @@ namespace pract.DAO
 {
     public interface IClientRepository
     {
-        IQueryable<Client> GetAllClientsWithEquipment();
-        IQueryable<Client> GetClientOnly();
-        Task<Client> GetClientById(long ClientId);
+        IQueryable<Client> GetClientsOnly();
         Task<Client> AddClient(Client client);
+        Client GetClientById(long id);
     }
 }

@@ -13,6 +13,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped <IClientRepository,ClientRepository>();
 builder.Services.AddScoped<IServiceRepoitory, ServiceRepository>();
+builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+builder.Services.AddScoped<IMasterRepository, MasterRepository>();
+builder.Services.AddScoped<IPartRepository, PartRepository >();
+builder.Services.AddScoped<IReceprionistRepository, ReceptionistRepository>();
+builder.Services.AddScoped<IRepairRepository, RepairRepository>();
+builder.Services.AddScoped<IRepairServiceRepository, RepairServiceRepository>();
+builder.Services.AddScoped<IServiceRepoitory, ServiceRepository>();
+builder.Services.AddScoped<IUsedPartRepository, UsedPartRepository>();
 builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().
     AddSorting().AddFiltering();
 var app = builder.Build();
@@ -27,7 +35,7 @@ app.UseRouting();
 app.UseCors(cors => cors
 .AllowAnyMethod()
 .AllowAnyHeader()
-.SetIsOriginAllowed(origin => true)
+.SetIsOriginAllowed(_ => true)
 .AllowCredentials()
 );
 using (var scope = app.Services.CreateScope())

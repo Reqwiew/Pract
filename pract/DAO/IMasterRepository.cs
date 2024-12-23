@@ -4,6 +4,8 @@ namespace pract.DAO
 {
     public interface IMasterRepository
     {
-        IQueryable<Master> GetAllMaster();
+        IQueryable<Master> GetMasterOnly();
+        Task<Master> AddMaster(Master master);
+        Master GetMasterById(long id);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pract;
 
@@ -11,9 +12,11 @@ using pract;
 namespace pract.Migrations
 {
     [DbContext(typeof(PractDbContext))]
-    partial class PractDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241223133641_migaret13")]
+    partial class migaret13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

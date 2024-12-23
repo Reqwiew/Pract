@@ -3,7 +3,7 @@ using pract.Models;
 
 namespace pract.DAO
 {
-    public class ReceptionistRepository
+    public class ReceptionistRepository:IReceprionistRepository
     {
         private readonly PractDbContext db;
         public ReceptionistRepository(PractDbContext db)
@@ -11,47 +11,23 @@ namespace pract.DAO
             this.db = db;
         }
 
-        public List<Receptionist> GetAllReceptionists()
+        public IQueryable<Receptionist> GetReceptionistOnly()
         {
-            return db.receptionits.ToList();
+            return db.receptionits.AsQueryable();
         }
 
-        public async Task<Receptionist> AddReceptionist(string fullName, string phoneNumber)
+        public async Task<Receptionist> AddReceptionist(Receptionist receptionist)
         {
-            Receptionist receptionist = new Receptionist()
-            {
-                FullName = fullName,
-                PhoneNumber = phoneNumber
-            };
             db.receptionits.Add(receptionist);
             await db.SaveChangesAsync();
             return receptionist;
         }
 
-        public async Task<Receptionist> UpdateReceptionist(Receptionist model)
+        public Receptionist GetReceptionistById(long id)
         {
-            var receptionist = await db.receptionits.Where(r => r.ReceptionistID == model.ReceptionistID).FirstOrDefaultAsync();
-            if (receptionist != null)
-            {
-                if (!string.IsNullOrEmpty(model.FullName))
-                    receptionist.FullName = model.FullName;
-                if (!string.IsNullOrEmpty(model.PhoneNumber))
-                    receptionist.PhoneNumber = model.PhoneNumber;
-
-                db.receptionits.Update(receptionist);
-                await db.SaveChangesAsync();
-            }
-            return receptionist!;
-        }
-
-        public async Task DeleteReceptionist(int id)
-        {
-            var receptionist = await db.receptionits.Where(r => r.ReceptionistID == id).FirstOrDefaultAsync();
-            if (receptionist != null)
-            {
-                db.receptionits.Remove(receptionist);
-                await db.SaveChangesAsync();
-            }
+            var rec = db.receptionits.Include(p => p.Repairs).FirstOrDefault(p => p.Id == id);
+            if (rec != null) return rec!;
+            return null!;
         }
     }
 }

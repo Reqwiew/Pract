@@ -3,7 +3,7 @@ using pract.Models;
 
 namespace pract.DAO
 {
-    public class RepairServiceRepository
+    public class RepairServiceRepository:IRepairServiceRepository
     {
         private readonly PractDbContext db;
         public RepairServiceRepository(PractDbContext db)
@@ -11,33 +11,17 @@ namespace pract.DAO
             this.db = db;
         }
 
-        public List<RepairService> GetAllRepairServices()
+        public IQueryable<RepairService> GetRepairServiceOnly()
         {
-            return db.repairServices.Include(rs => rs.Repair)
-                                    .Include(rs => rs.Service)
-                                    .ToList();
+            return db.repairServices.AsQueryable();
         }
 
-        public async Task<RepairService> AddRepairService(int repairId, int serviceId)
+        public async Task<RepairService> AddRepairService(RepairService repairService)
         {
-            RepairService repairService = new RepairService()
-            {
-                RepairID = repairId,
-                ServiceID = serviceId
-            };
             db.repairServices.Add(repairService);
             await db.SaveChangesAsync();
             return repairService;
         }
 
-        public async Task DeleteRepairService(int id)
-        {
-            var repairService = await db.repairServices.Where(rs => rs.RepairServiceID == id).FirstOrDefaultAsync();
-            if (repairService != null)
-            {
-                db.repairServices.Remove(repairService);
-                await db.SaveChangesAsync();
-            }
-        }
     }
 }

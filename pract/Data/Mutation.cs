@@ -391,104 +391,57 @@ namespace pract.Data
 
 
         [Serial]
-        public async Task<Receptionist?> UpdateReceptionist([Service] PractDbContext context, Receptionist model)
+        public async Task<Service?> UpdateService([Service] PractDbContext context, Service model)
         {
-            var recep = await context.receptionits.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
-            if (recep != null)
+            var serv = await context.services.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
+            if (serv != null)
             {
-                if (!string.IsNullOrEmpty(model.FullName))
-                    recep.FullName = model.FullName;
-                if (!string.IsNullOrEmpty(model.PhoneNumber))
-                    recep.PhoneNumber = model.PhoneNumber;
-
-                context.receptionits.Update(recep);
+                if (!string.IsNullOrEmpty(model.ServiceName))
+                    serv.ServiceName = model.ServiceName;
+                if (!string.IsNullOrEmpty((model.Price).ToString()))
+                    serv.Price = model.Price;
+                context.services.Update(serv);
                 await context.SaveChangesAsync();
             }
 
-            return recep;
+            return serv;
         }
 
         [Serial]
-        public async Task DeleteReceptionist(
-            [Service] PractDbContext context, Receptionist model)
+        public async Task DeleteService(
+            [Service] PractDbContext context, Service model)
         {
-            var recep = await context.receptionits.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
-            if (recep != null)
+            var serv = await context.services.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
+            if (serv != null)
             {
-                context.receptionits.Remove(recep);
+                context.services.Remove(serv);
                 await context.SaveChangesAsync();
             }
         }
 
         [Serial]
-        public async Task<Receptionist?> InsertReceptionist(
+        public async Task<Service?> InsertServices(
             [Service] PractDbContext context,
-            string FullName,
-            string PhoneNumber
+            string ServiceName,
+            decimal Price
 
 
             )
         {
-            var recep = new Receptionist
+            var serv = new Service
             {
-                FullName = FullName,
-                PhoneNumber = PhoneNumber
+                ServiceName = ServiceName,
+                Price = Price
+
             };
-            context.receptionits.Add(recep);
+            context.services.Add(serv);
             await context.SaveChangesAsync();
-            return recep;
+            return serv;
         }
 
 
 
-        [Serial]
-        public async Task<Receptionist?> UpdateReceptionist([Service] PractDbContext context, Receptionist model)
-        {
-            var recep = await context.receptionits.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
-            if (recep != null)
-            {
-                if (!string.IsNullOrEmpty(model.FullName))
-                    recep.FullName = model.FullName;
-                if (!string.IsNullOrEmpty(model.PhoneNumber))
-                    recep.PhoneNumber = model.PhoneNumber;
-
-                context.receptionits.Update(recep);
-                await context.SaveChangesAsync();
-            }
-
-            return recep;
-        }
-
-        [Serial]
-        public async Task DeleteReceptionist(
-            [Service] PractDbContext context, Receptionist model)
-        {
-            var recep = await context.receptionits.Where(p => p.Id == model.Id).FirstOrDefaultAsync();
-            if (recep != null)
-            {
-                context.receptionits.Remove(recep);
-                await context.SaveChangesAsync();
-            }
-        }
-
-        [Serial]
-        public async Task<Receptionist?> InsertReceptionist(
-            [Service] PractDbContext context,
-            string FullName,
-            string PhoneNumber
-
-
-            )
-        {
-            var recep = new Receptionist
-            {
-                FullName = FullName,
-                PhoneNumber = PhoneNumber
-            };
-            context.receptionits.Add(recep);
-            await context.SaveChangesAsync();
-            return recep;
-        }
+       
 
 
 

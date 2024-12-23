@@ -4,6 +4,8 @@ namespace pract.DAO
 {
     public interface IReceprionistRepository
     {
-        IQueryable<Receptionist> GetAllReceptionist();
+        IQueryable<Receptionist> GetReceptionistOnly();
+        Task<Receptionist> AddReceptionist(Receptionist receptionist);
+        Receptionist GetReceptionistById(long id);
     }
 }

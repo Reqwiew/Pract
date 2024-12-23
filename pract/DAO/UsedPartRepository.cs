@@ -3,7 +3,7 @@ using pract.Models;
 
 namespace pract.DAO
 {
-    public class UsedPartRepository
+    public class UsedPartRepository: IUsedPartRepository
     {
         private readonly PractDbContext db;
         public UsedPartRepository(PractDbContext db)
@@ -11,34 +11,18 @@ namespace pract.DAO
             this.db = db;
         }
 
-        public List<UsedPart> GetAllUsedParts()
+        public IQueryable<UsedPart> GetUsedPartOnly()
         {
-            return db.usedParts.Include(up => up.Repair)
-                               .Include(up => up.Part)
-                               .ToList();
+            return db.usedParts.AsQueryable();
         }
 
-        public async Task<UsedPart> AddUsedPart(int repairId, int partId, int quantity)
+        public async Task<UsedPart> AddUsedPart(UsedPart usedPart)
         {
-            UsedPart usedPart = new UsedPart()
-            {
-                RepairID = repairId,
-                PartID = partId,
-                Quantity = quantity
-            };
             db.usedParts.Add(usedPart);
             await db.SaveChangesAsync();
             return usedPart;
         }
 
-        public async Task DeleteUsedPart(int id)
-        {
-            var usedPart = await db.usedParts.Where(up => up.UsedPartID == id).FirstOrDefaultAsync();
-            if (usedPart != null)
-            {
-                db.usedParts.Remove(usedPart);
-                await db.SaveChangesAsync();
-            }
-        }
+
     }
 }

@@ -3,58 +3,32 @@ using pract.Models;
 
 namespace pract.DAO
 {
-    public class MasterRepository
+    public class MasterRepository:IMasterRepository
     {
         private readonly PractDbContext db;
+
         public MasterRepository(PractDbContext db)
         {
             this.db = db;
         }
 
-        public List<Master> GetAllMasters()
+        public IQueryable<Master> GetMasterOnly()
         {
-            return db.masters.ToList();
+            return db.masters.AsQueryable();
         }
 
-        public async Task<Master> AddMaster(string fullName, string specialization, string phoneNumber)
+        public async Task<Master> AddMaster(Master master)
         {
-            Master master = new Master()
-            {
-                FullName = fullName,
-                Specialization = specialization,
-                PhoneNumber = phoneNumber
-            };
             db.masters.Add(master);
             await db.SaveChangesAsync();
             return master;
         }
 
-        public async Task<Master> UpdateMaster(Master model)
+        public Master GetMasterById(long id)
         {
-            var master = await db.masters.Where(m => m.MasterID == model.MasterID).FirstOrDefaultAsync();
-            if (master != null)
-            {
-                if (!string.IsNullOrEmpty(model.FullName))
-                    master.FullName = model.FullName;
-                if (!string.IsNullOrEmpty(model.Specialization))
-                    master.Specialization = model.Specialization;
-                if (!string.IsNullOrEmpty(model.PhoneNumber))
-                    master.PhoneNumber = model.PhoneNumber;
-
-                db.masters.Update(master);
-                await db.SaveChangesAsync();
-            }
-            return master!;
-        }
-
-        public async Task DeleteMaster(int id)
-        {
-            var master = await db.masters.Where(m => m.MasterID == id).FirstOrDefaultAsync();
-            if (master != null)
-            {
-                db.masters.Remove(master);
-                await db.SaveChangesAsync();
-            }
+            var mast = db.masters.Include(p => p.Repairs).FirstOrDefault(p => p.Id == id);
+            if (mast != null) return mast!;
+            return null!;
         }
     }
 }
